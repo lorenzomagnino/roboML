@@ -2,7 +2,7 @@
 
 help:
 	@echo "Available commands:"
-	@echo "  make init                 - Initialize README and project metadata"
+	@echo "  make init                 - Initialize project, dependencies, and hooks"
 	@echo "  make install              - Install dependencies with uv"
 	@echo "  make run                  - Run main.py"
 	@echo "  make test                 - Run tests"
@@ -12,22 +12,26 @@ help:
 	@echo "  make clean                - Clean cache files"
 
 init:
-	python3 scripts/init_project.py
+	$(MAKE) install
+	.venv/bin/python scripts/init_project.py
+	$(MAKE) pre-commit-install
+	@echo "Virtual environment ready. Activate it with: source .venv/bin/activate"
 
 install:
+	uv venv
 	uv pip install hydra-core wandb torch omegaconf ruff black pytest pre-commit rich
 
 run:
-	uv run python main.py
+	.venv/bin/python main.py
 
 test:
-	uv run pytest tests/
+	.venv/bin/pytest tests/
 
 lint:
-	uv run ruff check .
+	.venv/bin/ruff check .
 
 format:
-	uv run black .
+	.venv/bin/black .
 
 pre-commit-install:
 	.venv/bin/pre-commit install

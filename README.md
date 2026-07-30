@@ -1,3 +1,5 @@
+After creating a new repository from this template, run `make init` first.
+
 <div align="center">
   <img src="favicon.svg" alt="RoboML Research Template" width="110" height="110">
 </div>
@@ -40,32 +42,23 @@ Let me know if you use this template!!
 
 ## Setup
 
-### Prerequisites
+Use this repository as a GitHub template instead of cloning it directly:
 
-- Python 3.8+
-- [uv](https://github.com/astral-sh/uv) package manager
-
-### Installation
-
-1. Clone the repository:
+1. Open this repository on GitHub.
+2. Click **Use this template** > **Create a new repository**.
+3. Choose the owner and repository name for your new research project.
+4. Clone your new repository:
 ```bash
 git clone <repository-url>
-cd roboml-research-template
+cd <repository-name>
 ```
-
-2. Install dependencies:
+5. Bootstrap the project:
 ```bash
-uv venv
+make init
 source .venv/bin/activate
-make install
 ```
 
-**Note**: This template installs dependencies directly rather than using `pip install -e ".[dev]"` because it's structured as a template repository, not an installable Python package.
-
-3. (Optional) Install pre-commit hooks:
-```bash
-make pre-commit-install
-```
+Prerequisites: Python 3.8+ and [uv](https://github.com/astral-sh/uv).
 
 ### Try it! It's simple
 ```bash
