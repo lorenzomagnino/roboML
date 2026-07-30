@@ -1,7 +1,8 @@
-.PHONY: install run test lint format pre-commit-install clean help
+.PHONY: init install run test lint format pre-commit-install clean help
 
 help:
 	@echo "Available commands:"
+	@echo "  make init                 - Initialize README and project metadata"
 	@echo "  make install              - Install dependencies with uv"
 	@echo "  make run                  - Run main.py"
 	@echo "  make test                 - Run tests"
@@ -9,6 +10,9 @@ help:
 	@echo "  make format               - Run black formatter"
 	@echo "  make pre-commit-install   - Install pre-commit hooks"
 	@echo "  make clean                - Clean cache files"
+
+init:
+	python3 scripts/init_project.py
 
 install:
 	uv pip install hydra-core wandb torch omegaconf ruff black pytest pre-commit rich
