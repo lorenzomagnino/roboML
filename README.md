@@ -9,7 +9,8 @@ After creating a new repository from this template, run `make init` first.
 
 #  🧩 RoboML Research Template
 
-A lightweight, opinionated template for running machine learning and robotics research projects. It provides a standardized structure for experiments, data handling, logging, and evaluation, with ready-to-use configs and scripts for reproducible workflows.
+A minimal template for machine learning and robotics research: environment and
+training configs with Hydra, and logging and bag storage with Watson.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -33,9 +34,9 @@ Let me know if you use this template!!
 
 ## Features
 
-- **Hydra Configuration Management**: Modular config structure with separate files for model, training, and wandb settings
+- **Hydra Configuration Management**: Environment and training settings
 - **Type-Safe Configs**: Dataclass schemas for configuration validation and IDE support
-- **Wandb Integration**: Built-in experiment tracking and logging
+- **Watson Support**: Experiment logging, optional W&B tracking, and bag storage
 - **Fast Package Management**: Uses `uv` for quick dependency installation
 - **Development Tools**: Pre-commit hooks with ruff and black for code quality
 - **Auto-formatting**: Ruff automatically formats Python files on save (VS Code/Cursor)
@@ -60,6 +61,11 @@ source .venv/bin/activate
 
 Prerequisites: Python 3.8+ and [uv](https://github.com/astral-sh/uv).
 
+`make init` replaces the template README and project metadata, removes
+`favicon.svg` and `CONTRIBUTING.md`, and sets the MIT license copyright to the
+current year and your Git `user.name`. Set `USER_NAME` to override the author
+and `USER_EMAIL` to override Git's email; initialization requires an author name.
+
 ### Try it! It's simple
 ```bash
 python main.py
@@ -69,10 +75,12 @@ python main.py
 
 Configuration files are located in the `config/` directory:
 - `defaults.yaml`: Main defaults file that imports all configs
-- `model.yaml`: Model architecture parameters
-- `training.yaml`: Training hyperparameters
-- `wandb.yaml`: Wandb project settings
-- `config.yaml`: General experiment settings
+- `environment/environment.yaml`: Environment settings
+- `training/training_v0.yaml`: Training hyperparameters
+- `config_schema.py`: Dataclass schemas and general experiment settings
+
+Logging and saving are configured in root `watson.yaml`. Hydra's per-run logging
+and output files are disabled; the entry point prints the composed config.
 
 Override config values via command line:
 ```bash
@@ -124,9 +132,7 @@ finally:
     wt.finish()
 ```
 
-Use this handler instead of also calling `init_wandb` for the same run.
-Watson's W&B settings are separate from Hydra's `logging.wandb` config and
-are only activated when you attach the handler.
+W&B logging is only activated when you attach the Watson handler.
 
 ## Project Structure
 
@@ -135,12 +141,10 @@ roboml-research-template/
 ├── config/              # Hydra configuration files
 │   ├── config_schema.py # Dataclass schemas
 │   ├── defaults.yaml    # Main defaults
-│   ├── model.yaml       # Model config
-│   ├── training.yaml    # Training config
-│   ├── wandb.yaml       # Wandb config
-│   └── config.yaml      # General config
-├── networks/            # Network architectures
-├── learner/             # Learning algorithms
+│   ├── environment/     # Environment config and schema
+│   └── training/        # Training config and schema
+├── init_project.py      # One-time template initialization
+├── watson.yaml          # Logging and storage settings
 ├── tests/               # Test files
 └── main.py              # Entry point
 ```

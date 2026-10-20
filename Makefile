@@ -14,13 +14,13 @@ help:
 
 init:
 	$(MAKE) install
-	.venv/bin/python scripts/init_project.py
+	.venv/bin/python init_project.py
 	$(MAKE) pre-commit-install
 	@echo "Virtual environment ready. Activate it with: source .venv/bin/activate"
 
 install:
 	uv venv
-	uv pip install hydra-core wandb torch omegaconf ruff black pytest pre-commit rich
+	uv pip install hydra-core torch omegaconf ruff black pytest pre-commit
 
 install-watson:
 	uv pip install --python .venv/bin/python 'robo-watson[wandb] @ git+https://github.com/lorenzomagnino/watson.git@be76a89d92db1f1d03a72abe9b951ae2b57822d2'
@@ -29,7 +29,7 @@ run:
 	.venv/bin/python main.py
 
 test:
-	.venv/bin/pytest tests/
+	.venv/bin/python -m pytest tests/
 
 lint:
 	.venv/bin/ruff check .
