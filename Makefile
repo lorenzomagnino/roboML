@@ -1,9 +1,10 @@
-.PHONY: init install run test lint format pre-commit-install clean help
+.PHONY: init install install-watson run test lint format pre-commit-install clean help
 
 help:
 	@echo "Available commands:"
 	@echo "  make init                 - Initialize project, dependencies, and hooks"
 	@echo "  make install              - Install dependencies with uv"
+	@echo "  make install-watson       - Install optional Watson support (Python 3.10+)"
 	@echo "  make run                  - Run main.py"
 	@echo "  make test                 - Run tests"
 	@echo "  make lint                 - Run ruff linter"
@@ -20,6 +21,9 @@ init:
 install:
 	uv venv
 	uv pip install hydra-core wandb torch omegaconf ruff black pytest pre-commit rich
+
+install-watson:
+	uv pip install --python .venv/bin/python 'robo-watson[wandb] @ git+https://github.com/lorenzomagnino/watson.git@be76a89d92db1f1d03a72abe9b951ae2b57822d2'
 
 run:
 	.venv/bin/python main.py

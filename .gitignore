@@ -51,6 +51,9 @@ outputs/
 # Wandb
 wandb/
 
+# Watson recordings
+/bags/
+
 # Ruff
 .ruff_cache/
 

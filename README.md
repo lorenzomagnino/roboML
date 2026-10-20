@@ -86,6 +86,48 @@ python main.py training.learning_rate=0.01 training.batch_size=64
 - **Run tests**: `make test`
 - **Clean cache**: `make clean`
 
+### Optional Watson support
+
+[Watson](https://github.com/lorenzomagnino/watson) provides experiment logging
+and bag storage. After setup, install it into a Python 3.10+ environment:
+
+```bash
+make install-watson
+```
+
+This installs a pinned GitHub revision because the current PyPI release lacks
+project-config support. Git and access to the private Watson repository are required.
+
+Edit [`watson.yaml`](watson.yaml) to set the bag destination (`bags_dir`) and
+optional W&B project, entity, run name, group, and tags. Relative destinations
+resolve from that file's directory; the default `bags/` is ignored by Git.
+Run commands from this repo or a subdirectory so Watson discovers the file:
+
+```bash
+.venv/bin/watson save /path/to/completed/recording --name experiment
+.venv/bin/watson list
+```
+
+`WATSON_BAGS` or `watson --root /another/destination ...` overrides `bags_dir`.
+For W&B logging, authenticate with `wandb login` or `WANDB_API_KEY`, then attach
+the configured handler in your experiment code:
+
+```python
+import watson as wt
+
+settings = wt.load_project_config()
+wt.attach(wt.WandBHandler(**settings.wandb))
+try:
+    logger = wt.get_logger("experiment", with_metrics=True)
+    logger.scalar("loss", 0.12, step=1)
+finally:
+    wt.finish()
+```
+
+Use this handler instead of also calling `init_wandb` for the same run.
+Watson's W&B settings are separate from Hydra's `logging.wandb` config and
+are only activated when you attach the handler.
+
 ## Project Structure
 
 ```

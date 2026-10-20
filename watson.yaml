@@ -1,0 +1,12 @@
+# Watson discovers this file from the current directory or its parents.
+# Relative destinations resolve from this file's directory.
+bags_dir: ./bags
+
+# Optional W&B settings; loading this file does not start a W&B run.
+# Authenticate with `wandb login` or WANDB_API_KEY, never credentials here.
+wandb:
+  project: roboml-research
+  entity: null  # Set your W&B team or username.
+  run_name: null
+  group: null
+  tags: []
